@@ -1,0 +1,6 @@
+[submodule "references/go-command-line-prac"]
+	path = references/go-command-line-prac
+	url = https://github.com/kakdeykaushik/go-command-line-prac.git
+[submodule "references/ssl-expiry-watch"]
+	path = references/ssl-expiry-watch
+	url = https://github.com/rajkumaar23/ssl-expiry-watch

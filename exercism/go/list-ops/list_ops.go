@@ -79,8 +79,6 @@ func (s IntList) Append(lst IntList) IntList {
 	return append(s, lst...)
 }
 
-
-
 func (s IntList) Concat(lists []IntList) IntList {
 	concatenatedList := make(IntList, 0)
 	concatenatedList = append(concatenatedList, s...)

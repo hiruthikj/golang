@@ -5,19 +5,19 @@ import (
 )
 
 func CollatzConjecture(n int) (int, error) {
-	if (n <= 0) {
-		return -1, errors.New("must be whole number");
+	if n <= 0 {
+		return -1, errors.New("must be whole number")
 	}
 
-	steps := 0;
+	steps := 0
 
 	for n != 1 {
-		if n % 2 == 0 {
-			n /= 2;
+		if n%2 == 0 {
+			n /= 2
 		} else {
-			n = 3*n + 1;
+			n = 3*n + 1
 		}
-		steps += 1;
+		steps += 1
 	}
-	return steps, nil;
-}	
+	return steps, nil
+}

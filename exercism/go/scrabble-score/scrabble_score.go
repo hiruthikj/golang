@@ -26,8 +26,7 @@ func Score(word string) int {
 		'k': 5,
 		'j': 8, 'x': 8,
 		'q': 10, 'z': 10,
-	  }
-
+	}
 
 	for _, char := range word {
 		score += scoreMapping[char]

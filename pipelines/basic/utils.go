@@ -46,35 +46,24 @@ func gen(done <-chan interface{}, nums ...int) <-chan int {
 
 func fanIn[T any](done <-chan interface{}, inboundChans ...<-chan T) <-chan T {
 	outboundChan := make(chan T)
+	var wg sync.WaitGroup
+	wg.Add(len(inboundChans))
 
 	go func() {
 		defer close(outboundChan)
-		var wg sync.WaitGroup
-		wg.Add(len(inboundChans))
+
+		multiplex := func(inboundChan <-chan T) {
+			defer wg.Done()
+			for v := range orDone(done, inboundChan){
+				outboundChan <- v
+			}
+		}
 
 		for _, inboundChan := range(inboundChans) {
-			go func(inboundChan <-chan T){
-				defer wg.Done()
-				for {
-					select {
-					case <-done:
-						return
-					case v, ok := <-inboundChan:
-						if !ok {
-							return
-						}
-						select {
-						case <-done:
-							return
-						case outboundChan <- v:
-						}
-					}
-				}
-			}(inboundChan)
+			go multiplex(inboundChan)
 		}
 		wg.Wait()
 	}()
-
 
 	return outboundChan
 }

@@ -1,16 +1,30 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
 func main() {
-	done := make(chan interface{})
-	c := gen(done, 1,2,3)
-	op := sq(done, c)
+	totalInputs := 10
 
-	fmt.Println(<-op)
-	fmt.Println(<-op)
-	fmt.Println(<-op)
-	fmt.Println(<-op)
-	a, b:= <-op
-	fmt.Println(a, b)
+	ls := make([]int, totalInputs)
+	done := make(chan interface{})
+	defer close(done)
+	
+	for i := 0; i < totalInputs; i++ {
+		ls[i] = i+1
+	}
+	c := gen(done, ls...)
+
+	cpuCount := runtime.NumCPU()
+
+	outboundChans := make([]<-chan int, cpuCount)
+	for i:= 0; i < cpuCount; i++ {
+		outboundChans[i] = sq(done, c)
+	}
+
+	for o := range fanIn(done, outboundChans...) {
+		fmt.Println(o)
+	}
 }

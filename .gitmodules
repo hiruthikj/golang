@@ -4,3 +4,6 @@
 [submodule "references/ssl-expiry-watch"]
 	path = references/ssl-expiry-watch
 	url = https://github.com/rajkumaar23/ssl-expiry-watch
+[submodule "cli-programs/wc"]
+	path = cli-programs/wc
+	url = https://github.com/hiruthikj/wc.git

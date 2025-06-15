@@ -54,12 +54,12 @@ func fanIn[T any](done <-chan interface{}, inboundChans ...<-chan T) <-chan T {
 
 		multiplex := func(inboundChan <-chan T) {
 			defer wg.Done()
-			for v := range orDone(done, inboundChan){
+			for v := range orDone(done, inboundChan) {
 				outboundChan <- v
 			}
 		}
 
-		for _, inboundChan := range(inboundChans) {
+		for _, inboundChan := range inboundChans {
 			go multiplex(inboundChan)
 		}
 		wg.Wait()

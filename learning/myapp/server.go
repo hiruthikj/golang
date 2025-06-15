@@ -8,13 +8,13 @@ import (
 )
 
 type User struct {
-	Name string `json:"name" form:"name" query:"name"`
+	Name  string `json:"name" form:"name" query:"name"`
 	Email string `json:"email" form:"email" query:"name"`
 }
 
 type UserDTO struct {
-	Name string
-	Email string
+	Name    string
+	Email   string
 	IsAdmin bool
 }
 
@@ -27,13 +27,14 @@ func main() {
 
 	e.POST("/users", func(c echo.Context) error {
 		u := &User{}
-		err := c.Bind(u); if err != nil {
+		err := c.Bind(u)
+		if err != nil {
 			return c.String(http.StatusBadRequest, err.Error())
 		}
 
 		user := UserDTO{
-			Name: u.Name,
-			Email: u.Email,
+			Name:    u.Name,
+			Email:   u.Email,
 			IsAdmin: false,
 		}
 
@@ -42,7 +43,7 @@ func main() {
 		return c.String(http.StatusCreated, "Created User")
 	})
 
-	if 	err:= e.Start(":1323"); err != http.ErrServerClosed {
+	if err := e.Start(":1323"); err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
 

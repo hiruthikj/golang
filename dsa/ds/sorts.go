@@ -14,23 +14,32 @@ func main() {
 	}
 
 	fmt.Println(arr)
-	bubbleSort(arr)
+	insertionSort(arr, n)
 	fmt.Println(arr)
 }
 
-func bubbleSort(arr []int) {
-	n := len(arr)
-
+// Adaptive, In-place, Stable sort algo
+func bubbleSort(arr []int, n int) {
 	for {
 		pos := 0
 		for i := 0; i < n-1-pos; i++ {
 			if arr[i+1] < arr[i] {
 				arr[i], arr[i+1] = arr[i+1], arr[i]
+				// To Skip parts of array which is already sorted
 				pos = i + 1
 			}
 		}
 		if pos <= 1 {
 			break
+		}
+	}
+}
+
+// Online, Adaptive, In-place, Stable sort algo
+func insertionSort(arr []int, n int) {
+	for i := 1; i < n; i++ {
+		for j := i - 1; j >= 0 && arr[j] > arr[j+1]; j-- {
+			arr[j+1], arr[j] = arr[j], arr[j+1]
 		}
 	}
 }

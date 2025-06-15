@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 )
 
 func main() {
@@ -16,6 +17,10 @@ func main() {
 	fmt.Println(arr)
 	insertionSort(arr, n)
 	fmt.Println(arr)
+
+	if !sort.IsSorted(sort.IntSlice(arr)) {
+		panic(fmt.Sprintf("%v did'nt sort", arr))
+	}
 }
 
 // Adaptive, In-place, Stable sort algo
@@ -38,8 +43,12 @@ func bubbleSort(arr []int, n int) {
 // Online, Adaptive, In-place, Stable sort algo
 func insertionSort(arr []int, n int) {
 	for i := 1; i < n; i++ {
-		for j := i - 1; j >= 0 && arr[j] > arr[j+1]; j-- {
-			arr[j+1], arr[j] = arr[j], arr[j+1]
+		numInserted := arr[i]
+		j := i - 1
+		for j >= 0 && arr[j] > numInserted {
+			arr[j+1] = arr[j]
+			j--
 		}
+		arr[j+1] = numInserted
 	}
 }
